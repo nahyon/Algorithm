@@ -13,7 +13,6 @@ public class Main {
 	static StringBuilder sb = null;
 	static int N, M;
 	static int[] arr, res;
-	static boolean[] isSelected;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,7 +30,6 @@ public class Main {
 		sb = new StringBuilder();
 
 		res = new int[M];
-		isSelected = new boolean[N];
 		dfs(0, 0);
 		System.out.println(sb);
 	}
