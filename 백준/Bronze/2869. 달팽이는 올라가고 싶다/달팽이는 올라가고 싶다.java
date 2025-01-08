@@ -13,15 +13,19 @@ public class Main {
 		B = Integer.parseInt(st.nextToken()); //밤에 미끄러짐 -
 		V = Integer.parseInt(st.nextToken()); //나무막대
 		
-		int diff = A-B;
-		// 처음 초기화
+		
+		// 처음 DAY 1 초기화
+		// 현재 : A
+		int diff = (A-B);
+		int left = (V-A); // 남은 것
 		int day = 1;
 		if (V > A) {
-			int plus = ((V-A)<diff) ? 1 : (V-A) / diff; 
-			if (plus * diff < (V-A)) plus+=1 ;
+			// 더 가야할 날의 수 == left/diff의 올림 연산
+			int plus = (left + (diff-1)) / diff;
 			day += plus;
 		}
 		System.out.println(day);
-		
 	}
 }
+
+
