@@ -80,7 +80,7 @@ public class Main {
 				if (nextR < 0 || nextC < 0 || nextR >= N || nextC >= M) continue;
 				if (visit[nextR][nextC]) continue;
 				
-				if (map[nextR][nextC]) queue.offer(new Node(nextR, nextC)); //이거 if문필요한가?
+				queue.offer(new Node(nextR, nextC)); //이거 if문필요한가?
 				area++;
 				visit[nextR][nextC] = true; //방문체크
 			}
