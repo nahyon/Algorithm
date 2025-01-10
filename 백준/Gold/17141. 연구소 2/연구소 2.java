@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-// 백준 17141 _ 연구소 2
 public class Main {
 	static int N, M;
 	static int[][] map;
@@ -39,17 +38,23 @@ public class Main {
 		for (int i = 0 ; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0 ; j < N; j++) {
-				int n = Integer.parseInt(st.nextToken());
+//				int n = Integer.parseInt(st.nextToken());
+//				//벽(1)이면 -1, 바이러스 퍼질 수 있으면(0, 2) -2
+//				if (n != 1) { //바이러스 퍼질 수 있음 (0, 1)
+//					space++;
+//					map[i][j] = -2;
+//					
+//					 //바이러스 놓을 수 있음
+//					if (n == 2) possibleVirus.add(new Node(i, j));
+//				} 
+//				else map[i][j] = -1;
 				
-				//벽(1)이면 -1, 바이러스 퍼질 수 있으면(0, 2) -2
-				if (n != 1) { //바이러스 퍼질 수 있음 (0, 1)
+				// MAP을 굳이 -1, -2로 바꿀 필요가 없음! 그냥 벽 1만 판단하면됨
+				map[i][j] = Integer.parseInt(st.nextToken());
+				if (map[i][j]!=1) {
 					space++;
-					map[i][j] = -2;
-					
-					 //바이러스 놓을 수 있음
-					if (n == 2) possibleVirus.add(new Node(i, j));
-				} 
-				else map[i][j] = -1;
+					if (map[i][j] == 2) possibleVirus.add(new Node(i, j));
+				}
 			}
 		}
 		
@@ -58,10 +63,8 @@ public class Main {
 		startVirus = new Node[M]; //뽑은 곳들 저장
 		
 //		space -= M; //바이러스 더 퍼져야하는 공간
-		
+
 		dfs(0, 0);
-		
-		
 		
 		if (minDays == Integer.MAX_VALUE) System.out.println(-1);
 		else System.out.println(minDays);
@@ -80,7 +83,7 @@ public class Main {
 		}
 		
 		int possibleCnt = possibleVirus.size();
-		for(int idx = startIdx; idx < possibleCnt ; idx++	) {
+		for(int idx = startIdx; idx < possibleCnt ; idx++) {
 			startVirus[depth] = possibleVirus.get(idx);
 			dfs(depth+1, idx+1);
 		}
@@ -106,7 +109,8 @@ public class Main {
 				int nextC = curC + dc[i];
 				
 				if (nextR < 0 || nextC < 0 || nextR >= N || nextC >= N) continue; //OOR
-				if (map[nextR][nextC] == -1) continue; //벽
+//				if (map[nextR][nextC] == -1) continue; //벽
+				if (map[nextR][nextC] == 1) continue; //벽
 				if (visit[nextR][nextC]) continue; //이미 방문
 				
 				queue.offer(new Node(nextR, nextC, day+1));
@@ -118,7 +122,6 @@ public class Main {
 			if ((day < minDays) && (day != -1))
 				minDays = day;
 		}
-		
 		
 	}
 }
