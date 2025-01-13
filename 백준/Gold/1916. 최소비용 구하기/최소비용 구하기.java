@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 
 // 백준 1916 _ 최소비용 구하기
 // 다익스트라 - PQ이용
-// 그래프 표현 - 인접행렬/ 인접리스트(!!)
 public class Main {
 	static class Node implements Comparable<Node> {
 		int idx, weight;
@@ -60,6 +59,7 @@ public class Main {
 		
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
+			if (isVisited[endIdx]) break; //추가
 			
 			if (isVisited[now.idx]) continue;
 			isVisited[now.idx] = true;
