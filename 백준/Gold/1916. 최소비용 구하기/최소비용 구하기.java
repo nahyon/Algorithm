@@ -53,21 +53,18 @@ public class Main {
 		Arrays.fill(dist, INF);
 		dist[startIdx] = 0;
 		
-		boolean[] isVisited = new boolean[N+1];
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 		pq.offer(new Node(startIdx, 0));
 		
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
-			if (isVisited[endIdx]) break; //추가
-			
-			if (isVisited[now.idx]) continue;
-			isVisited[now.idx] = true;
+            
+            if (dist[now.idx] < now.weight) continue;
+            
+            if (now.idx == endIdx) break; //최종
 			
 			for (Node next : graph[now.idx]) {
 				int nextW = next.weight; // now~인접정점 사이 weight
-				
-				if (isVisited[next.idx]) continue;
 				
 				if (dist[next.idx] > (now.weight + nextW)) {
 					dist[next.idx] = (now.weight + nextW) ; 
