@@ -62,17 +62,24 @@ public class Main {
 		queue.offer(new Node(startIdx, 0));
 		boolean[] isVisited = new boolean[V+1];
 		
+        int cnt = 0;
 		while(!queue.isEmpty()) {
 			Node now = queue.poll();
-			if (isVisited[now.idx]) continue;
-			isVisited[now.idx] = true;
+            
+            // 방문노드 continue
+			// if (isVisited[now.idx]) continue;
+			// isVisited[now.idx] = true;
+            if (now.w > dist[now.idx]) continue;
+            
+            // 종료조건
+            if (++cnt == V) break;
 			
 			// 이웃 보기
 			for (Node next : nodeList[now.idx]) {
 				int nextIdx = next.idx; // now의 인접정점
 				int nextW = next.w; // now~인접정점 사이 weight
 				
-				if (isVisited[nextIdx]) continue; // 이미 최단경로가 나온 경우 볼 필요 없음
+				// if (isVisited[nextIdx]) continue; // 이미 최단경로가 나온 경우 볼 필요 없음
 				
 				if (dist[nextIdx] > (dist[now.idx] + nextW)) {
 					dist[nextIdx] = (dist[now.idx] + nextW); //dist배열 업데이트
