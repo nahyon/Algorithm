@@ -58,10 +58,8 @@ public class Main {
 		
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
-            
-            if (dist[now.idx] < now.weight) continue;
-            
-            if (now.idx == endIdx) break; //최종
+            if (now.idx == endIdx) break; //최종 목적지 도달 완료
+            if (dist[now.idx] < now.weight) continue; //이미 방문한거
 			
 			for (Node next : graph[now.idx]) {
 				int nextW = next.weight; // now~인접정점 사이 weight
