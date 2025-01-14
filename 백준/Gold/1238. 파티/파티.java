@@ -83,7 +83,7 @@ public class Main {
 			
 			if (dist[cur.idx] < cur.w) continue; // 이미 방문완료한 노드 무시 
 			
-//			if (++cnt == N) break; // 종료조건 : 모든 노드 방문함
+			if (++cnt == N) break; // 종료조건 : 모든 노드 방문함
 			
 			for (int nextIdx = 1 ; nextIdx <= N; nextIdx++) { //이웃노드 탐색
 				
