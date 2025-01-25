@@ -29,13 +29,13 @@ public class Main {
 	static void dfs(int num) {
 		
 		if (String.valueOf(num).length() == N) {
-			if (is_prime(num)) sb.append(num).append("\n");
+			if (isPrime(num)) sb.append(num).append("\n");
 			return;
 		}
 		
 		for (int i = 1 ; i <= 9 ; i+=2) {
 			// numbers[i] : 새로 오른쪽에 붙일 한자리
-			if (!is_prime(num*10 + i)) continue;
+			if (!isPrime(num*10 + i)) continue;
 			num *= 10;
 			num += i;
 			dfs(num);
@@ -44,14 +44,12 @@ public class Main {
 		
 	}
 	
-	static boolean is_prime(int n) {
-		if (n <= 1) return false;
-		if (n <= 3) return true;
-		if (n % 2 == 0) return false;
-		for (int i = 2; i <= n - 1; i++) {
-			if (n % i == 0) return false;
-		}
-		return true;
-	}
-	
+
+    static boolean isPrime(int num) {
+        if (num < 2) return false;
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
 }
