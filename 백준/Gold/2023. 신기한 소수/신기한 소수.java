@@ -36,10 +36,7 @@ public class Main {
 		for (int i = 1 ; i <= 9 ; i+=2) {
 			// numbers[i] : 새로 오른쪽에 붙일 한자리
 			if (!isPrime(num*10 + i)) continue;
-			num *= 10;
-			num += i;
-			dfs(num);
-			num /= 10;
+			dfs(num*10 + i);
 		}
 		
 	}
