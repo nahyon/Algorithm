@@ -14,34 +14,29 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken()); 
 		int S = Integer.parseInt(st.nextToken()); 
 		
-		int[] arr = new int[N+1];		//게산 편의위해 인덱스0안씀
-		int[] sumArr = new int[N+1];	//게산 편의위해 인덱스0안씀
+		int[] arr = new int[N];		
 		st = new StringTokenizer(br.readLine());
-		for (int i = 1 ; i <= N ; i++) {
+		for (int i = 0 ; i < N ; i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
-			sumArr[i] = sumArr[i-1] + arr[i];
 		}
-		
-
 		int minLen = 100000;
-		int stIdx = 1;
-		int enIdx = 1; 
-		int sum = arr[1];
+		int stIdx = 0;
+		int enIdx = 0; 
+		int sum = arr[0];
 		
-		while (stIdx >= 1  && enIdx <= N) {
+		while (enIdx < N) {
 			if (sum >= S) {
 				minLen = Math.min(minLen, enIdx-stIdx+1);
 				// 하나 더 빼기 (좌측+1)
+				sum -= arr[stIdx];
 				stIdx++;
 			} else {
 				// 하나 더 추가 (우측+1)
 				enIdx++;
+				if (enIdx == N) break;
+				sum += arr[enIdx];
 			}
-			if (stIdx == 0 || enIdx > N) break;
-			sum = sumArr[enIdx] - sumArr[stIdx-1];
 		}
-		
-		
 		
 		if (minLen == 100000) System.out.println(0);
 		else System.out.println(minLen);
