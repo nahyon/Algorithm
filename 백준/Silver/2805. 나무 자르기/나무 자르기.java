@@ -33,7 +33,7 @@ public class Main {
 		int height = 0;
 		
 //		int rest = 0;
-//		int ans = trees[N-1];
+		int ans = 0;
 		while(start<=end) {
 			height = (start+end)/2;
 //			System.out.println("--" + height);
@@ -45,7 +45,7 @@ public class Main {
 			///////
 //			System.out.println(rest + " " + M);
 			if (rest >= M) { //근데 커지느순간하면 그 때가 height의 최소라는걸 어케 보장함? 좀 더 height를 줄일수도있잖
-//				ans = Math.max(ans, height);
+				ans = Math.max(ans, height);
 				start = height+1;
 			}
 			else if (rest < M) { // 더 앞으로
@@ -56,7 +56,7 @@ public class Main {
 //			}
 			
 		}
-		System.out.println(end);
+		System.out.println(ans);
 
 	}
 
