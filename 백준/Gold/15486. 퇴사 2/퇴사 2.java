@@ -14,8 +14,8 @@ public class Main {
 		
 		N = Integer.parseInt(br.readLine());
 		
-		T = new int[N+2];
-		P = new int[N+2];
+		T = new int[N+1];
+		P = new int[N+1];
 		
 		StringTokenizer st = null;
 		for (int i = 1 ; i <= N ;i++) {
@@ -23,15 +23,18 @@ public class Main {
 			T[i] = Integer.parseInt(st.nextToken());
 			P[i] = Integer.parseInt(st.nextToken());
 		}
+
 		
-		// N일차 일까지 다 고려했을 때 최고의 profit을 구하기
-        int[] dp = new int[N+2];
-        int maxProfit = 0;
-        for (int day = 1 ; day <= N+1 ; day++) {
-            maxProfit = Math.max(dp[day], maxProfit) ; //이전까지 고려된 최고의 수익 저장
-            if (day + T[day] > N+1) continue;
-            dp[day + T[day]] = Math.max(dp[day + T[day]], maxProfit + P[day]);
-        }
+		int[] dp = new int[N+2];
+		int maxProfit = 0;
+		for (int day = 1 ; day <= N ; day++) {
+			maxProfit = Math.max(dp[day], maxProfit) ; // 이 전날까지 고려된 가장 최고수익 갱신
+			int until = day + T[day] - 1 ; // 'until'일까지 일함
+			if (until > N) continue;
+			dp[until+1] = Math.max(dp[until+1], maxProfit + P[day]); //기존거 vs 오늘거 선택
+		}
+		maxProfit = Math.max(dp[N+1], maxProfit) ;
+		
 		System.out.println(maxProfit);
 		
 	}
