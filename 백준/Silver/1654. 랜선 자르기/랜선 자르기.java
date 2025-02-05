@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-import java.util.Arrays;
 
 // 백준 1654 _ 랜선 자르기
 // 파라매트릭 서치
@@ -17,16 +16,18 @@ public class Main {
 		N = Integer.parseInt(st.nextToken()); //필요 랜선 개수. N개 이상의 개수가 나오도록하기
 		
 		arr = new int[K];
-		for (int i = 0 ; i < K; i++) {
-			arr[i] = Integer.parseInt(br.readLine());
-		}
-		Arrays.sort(arr);
+        long right = 0; // right를 0으로 초기화 후 최댓값 찾기
+
+        for (int i = 0; i < K; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
+            right = Math.max(right, arr[i]); // 최댓값 갱신
+        }
         
 		// ans : 최대 랜선 길이
 		long ans = 0; //최대를 구해야하니 최소로 초기화
 		
 		// 최소의 length (ans) 를 찾아서 ...
-		long left = 1; long right = arr[K-1]; //최댓값 설정??
+		long left = 1; 
 		while (left <= right) {
 			long mid = (left + right) / 2; // length.. ans의 후보군
 			
