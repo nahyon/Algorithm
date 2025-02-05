@@ -16,18 +16,15 @@ public class Main {
 		N = Integer.parseInt(st.nextToken()); //필요 랜선 개수. N개 이상의 개수가 나오도록하기
 		
 		arr = new int[K];
-        long right = 0; // right를 0으로 초기화 후 최댓값 찾기
-
-        for (int i = 0; i < K; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-            right = Math.max(right, arr[i]); // 최댓값 갱신
-        }
-        
+		for (int i = 0 ; i < K; i++) {
+			arr[i] = Integer.parseInt(br.readLine());
+		}
+		
 		// ans : 최대 랜선 길이
 		long ans = 0; //최대를 구해야하니 최소로 초기화
 		
 		// 최소의 length (ans) 를 찾아서 ...
-		long left = 1; 
+		long left = 1; long right = 0x7fffffff; //최댓값 설정??
 		while (left <= right) {
 			long mid = (left + right) / 2; // length.. ans의 후보군
 			
