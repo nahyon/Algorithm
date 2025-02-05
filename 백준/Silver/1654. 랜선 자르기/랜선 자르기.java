@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 // 파라매트릭 서치
 public class Main {
 	static int K, N;
-	static int[] arr ;
+	static long[] arr ;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,7 +15,7 @@ public class Main {
 		K = Integer.parseInt(st.nextToken()); //가진 랜선 개수
 		N = Integer.parseInt(st.nextToken()); //필요 랜선 개수. N개 이상의 개수가 나오도록하기
 		
-		arr = new int[K];
+		arr = new long[K];
 		for (int i = 0 ; i < K; i++) {
 			arr[i] = Integer.parseInt(br.readLine());
 		}
@@ -24,7 +24,7 @@ public class Main {
 		long ans = 0; //최대를 구해야하니 최소로 초기화
 		
 		// 최소의 length (ans) 를 찾아서 ...
-		long left = 1; long right = 0x7fffffff; //최댓값 설정??
+		long left = 1; long right = Integer.MAX_VALUE; //최댓값 설정??
 		while (left <= right) {
 			long mid = (left + right) / 2; // length.. ans의 후보군
 			
@@ -50,3 +50,4 @@ public class Main {
 	}
 
 }
+
