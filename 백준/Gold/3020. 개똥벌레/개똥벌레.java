@@ -29,27 +29,17 @@ public class Main {
 			}
 		}
 		
-//		for (int i = 1 ; i <= H+1; i++) {
-//			System.out.print(cntImos[i]+ " ");
-//		}
-//		System.out.println();
-
 		
 		// IMOS배열 누적합
-		int now = 0;
-		for (int i = 1 ; i <= H+1; i++) {
-			cntImos[i] = cntImos[i-1] + cntImos[i];
-		}
-		
 //		for (int i = 1 ; i <= H+1; i++) {
-//			System.out.print(cntImos[i]+ " ");
+//			cntImos[i] = cntImos[i-1] + cntImos[i];
 //		}
-//		System.out.println();
-		
+
 		
 		int minCnt = Integer.MAX_VALUE; //그때 장애물개수 cntImos[i] <- 이거인 높이 몇개있냐 
 		int hCnt = Integer.MAX_VALUE; //높이
 		for (int i = 1 ; i <= H ; i++) {
+			cntImos[i] = cntImos[i-1] + cntImos[i]; //
 			if (cntImos[i] < minCnt) { //새로 업데이트
 				hCnt=1;//초기화
 				minCnt = cntImos[i];
