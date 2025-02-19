@@ -18,10 +18,10 @@ public class Main {
 		}
 		@Override
 		public int compareTo(Node o) {
-			if (this.time == o.time) {
-				return this.cost - o.cost; //오름차순
+			if (this.cost == o.cost) {
+				return this.time - o.time; //오름차순
 			}
-			return (this.time - o.time); //오름차순
+			return (this.cost - o.cost); //오름차순
 		}
 	}
 	static ArrayList<Node>[] graph;
