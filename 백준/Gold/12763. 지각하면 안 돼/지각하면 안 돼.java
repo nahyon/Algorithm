@@ -70,8 +70,6 @@ public class Main {
 		while (!queue.isEmpty()) {
 			Node cur = queue.poll(); // num, cur까지 오는 데 걸린 시간, cur까지 오는 데 든 비용
 			
-			if (cur.time > T) continue;
-			
 			if (cur.cost > dist[cur.num][cur.time]) continue; //">=아님!!"
 			
 			// 이웃(경유지로 사용) 고려 
