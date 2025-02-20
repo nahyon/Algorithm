@@ -53,25 +53,25 @@ public class Main {
 			maxC = Math.max(maxC, c);
 		}
 
-
+        
+        if (N==1) System.out.println(0);
+        else {
+            int left = 0;
+		    int right = maxC;
 		
-		int left = 0;
-		int right = maxC;
-		
-		int minCost = INF;
-		while(left <= right ) {
-			int mid = (left + right) / 2; //금액 설정 //인덱스가 아니라 그값으로 하기!
+		    int minCost = INF;
+		    while(left <= right ) {
+			    int mid = (left + right) / 2; //금액 설정 //인덱스가 아니라 그값으로 하기!
 			
-			if (!dijkstra(mid)) { //실패 ->mid 늘리기
-				left = mid+1;
-			} else {
-				right = mid-1;
-				minCost = Math.min(minCost, mid );
-			}
-		}
-		
-		System.out.println(minCost == INF ? -1 : minCost);
-				
+			    if (!dijkstra(mid)) { //실패 ->mid 늘리기
+			    	left = mid+1;
+			    } else {
+				    right = mid-1;
+				    minCost = Math.min(minCost, mid );
+		    	}
+	    	}
+		    System.out.println(minCost == INF ? -1 : minCost);
+        }
 	}
 		
 	static boolean dijkstra(int maxCost) { //최대 maxCost의 금액으로 N번까지 갈 수 있나 
