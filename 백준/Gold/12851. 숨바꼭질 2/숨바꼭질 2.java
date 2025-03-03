@@ -44,6 +44,8 @@ public class Main {
 		while(!queue.isEmpty()) {
 			int cur = queue.poll();
 			
+            if  (dist[cur] > time) continue;
+            
 			for (int i = 0; i < 3; i++) {
 			    int next = (i == 0) ? cur * dir[i] : cur + dir[i];
 			
@@ -54,11 +56,12 @@ public class Main {
 			        dist[next] = dist[cur] + 1;
 			        queue.offer(next);
 			    }
-			    if (next == end) cnt++;
+			    if (next == end) {
+                    cnt++;
+                    time = dist[end];
+                }
 			}
 		}
-		time = dist[end];
-		
 	}
 	
 	
