@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 public class Main {
 	static int start, end;
 	static int[] previousPos;
+	static int limit;
 	static StringBuilder sb ;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,9 +20,15 @@ public class Main {
 
 		start = Integer.parseInt(st.nextToken());
 		end = Integer.parseInt(st.nextToken());
+		limit = Math.max(start, end) * 2;
 		
 		sb = new StringBuilder();
 		
+		if (start == end) {
+			System.out.println(0);
+			System.out.println(start);
+			return;
+		}
 		search();
 		System.out.println(sb);
 		
@@ -51,7 +58,7 @@ public class Main {
 			for (int i = 0 ; i < 3 ; i++) {
 				int next = (i==0) ? cur * dir[i] : cur + dir[i];
 				
-				if (next < 0 || next > 100000 ) continue; //범위 밖 
+				if (next < 0 || next>limit || next > 100000) continue; //범위 밖 
 				
 				if (previousPos[next] != -1) continue; // 이미 도착한 적 있음
 				
