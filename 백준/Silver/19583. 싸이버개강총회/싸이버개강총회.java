@@ -34,10 +34,7 @@ public class Main {
 		
 		// startTime이하까지 맵에 저장
 		String input;
-//		while ((input = br.readLine()) != null) { //입력 종료될 때까지 받음
-		while (true) { // 무한 루프
-            input = br.readLine();
-            if (input == null) break; // EOF 감지
+		while ((input = br.readLine()) != null) { //입력 종료될 때까지 받음
 			st = new StringTokenizer(input);
 			if (!st.hasMoreTokens()) break; ////////
 			
@@ -65,8 +62,8 @@ public class Main {
 					cnt++;
 					attendees.remove(name); // 동일한 사람 또체크되는거 방지 
 				}
-			}
-		}
+			} else break;
+		} 
 		
 		
 		System.out.println(cnt);
