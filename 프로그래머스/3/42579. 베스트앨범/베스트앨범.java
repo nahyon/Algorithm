@@ -27,26 +27,21 @@ class Solution {
         // 재생된 수 같으면 번호 작은 것부터
         // -> class 사용
         HashMap<String, PriorityQueue<Song>> genreSongMap = new HashMap<>();
-        // arrayDeque 초기화
-        for (int i = 0 ; i < genres.length; i++) {
-            genreSongMap.put(genres[i], new PriorityQueue<Song>());
-        }
-        for (int i = 0 ; i < genres.length; i++) {
-            // 장르 , Song저장
-            genreSongMap.get(genres[i]).add(new Song(i, plays[i]));
-            // genreSongMap.put(genres[i], genreSongMap.get(genres[i]).append(new Song(i, plays[i])));
-        }
-        
-        //--------------------------
         
         // 장르(String) , 횟수(Integer) 합
         HashMap<String, Integer> genreCnt = new HashMap<>();
-        for (int i = 0 ; i < genres.length; i++ ) {
+
+        for (int i = 0; i < genres.length; i++) {
+            genreSongMap.putIfAbsent(genres[i], new PriorityQueue<>()); // 장르 : pq 초기화
+            genreSongMap.get(genres[i]).add(new Song(i, plays[i])); // 장르.add(Song)
+            
             genreCnt.put(genres[i], genreCnt.getOrDefault(genres[i], 0) + plays[i]);
         }
-        // key값들만 다 뽑기
+        
+        // 총 재생횟수 기준 내림차순으로 장르 정렬 (genreCnt맵) 
+        // - key값들만 다 뽑기
         ArrayList<String> genreKeySet = new ArrayList<>(genreCnt.keySet());
-        Collections.sort(genreKeySet, (value1, value2) -> (genreCnt.get(value2) - genreCnt.get(value1)));
+        genreKeySet.sort((value1, value2) -> (genreCnt.get(value2) - genreCnt.get(value1)));
         //--------------------------------------
         
         int[] answer = new int[genres.length]; 
