@@ -27,7 +27,8 @@ public class Main {
 			int c = Integer.parseInt(st.nextToken());
 		
 			if (a == 0) { // 합집합 
-                if ((b==c) || (find(b)==find(c))) continue;
+                // if ((b==c) || (find(b)==find(c))) continue;
+                if (b==c) continue;
 				union(b, c);
 			} else {
 				if ((b==c) || (find(b)== find(c))) sb.append("yes").append("\n");
