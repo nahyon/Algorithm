@@ -30,7 +30,7 @@ public class Main {
                 if ((b==c) || (find(b)==find(c))) continue;
 				union(b, c);
 			} else {
-				if (find(b)== find(c)) sb.append("yes").append("\n");
+				if ((b==c) || (find(b)== find(c))) sb.append("yes").append("\n");
 				else sb.append("no").append("\n");
 			}
 		}
