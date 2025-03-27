@@ -38,12 +38,12 @@ public class Main {
                 else { // 초기상태 물 ('*')
                 	map[i][j] = 0; // 0일
                 	waterQ.offer(new int[] {i, j, 0}); // 0일에 물인상태 
-                	waterVisited[i][j] = true;
+                	// waterVisited[i][j] = true;
                 }
             }     
         }
 //        printMap();
-        changeMap(waterVisited);
+        changeMap();
 //        printMap();
         int day = bfs(startR, startC);
         
@@ -56,7 +56,7 @@ public class Main {
 	static int[] dc = {0, 0, 1, -1};
 	
 	// 시간에 따른 물 확장 맵
-	static void changeMap(boolean[][] isVisited) {
+	static void changeMap() {
 		
 		// 이 날 처음 물 개수 : size
 //		int size = waterQ.size();
@@ -70,10 +70,9 @@ public class Main {
 				
 				if (nextR < 0 || nextC < 0 ||nextR >= N || nextC >= M) continue;
 				if (map[nextR][nextC] == -3 || map[nextR][nextC] == -2) continue; //돌, 비버굴
-				if (isVisited[nextR][nextC]) continue; //이미 물인 경우
+				if (map[nextR][nextC]>=0) continue; //이미 물인 경우
 				map[nextR][nextC] = day+1;
 				waterQ.offer(new int[] {nextR, nextC, day+1}) ;
-				isVisited[nextR][nextC] = true; 
 			}
 		}
 	}
