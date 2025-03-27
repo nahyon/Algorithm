@@ -5,156 +5,123 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-//백준 2573 _ 빙산
+// 백준 2573 _빙산
 public class Main {
-	static StringTokenizer st;
-	static int N, M;
-	static int[][] map;
-	static boolean[][] ice;
-	static Queue<Node> queue;
-	static boolean[][] visit;
-	static int total;
-	public static void main(String[] args) throws IOException{
+	static int[][] grid;
+	static Queue<int[]> glacierList;
+	static int N, M, glacierCnt;
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		st = new StringTokenizer(br.readLine());	
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		map = new int[N][M]; //3<= N,M <=300 / 빙하<=10,000
-		ice = new boolean[N][M];
-		queue = new ArrayDeque<>();
-		
-		for (int r = 0 ; r < N ; r++) {
-			st = new StringTokenizer(br.readLine());	
-			for (int c = 0 ; c < M; c++) {
-				map[r][c] = Integer.parseInt(st.nextToken());
-				//빙하라면
-				if (map[r][c] > 0) {
-					queue.offer(new Node(r, c));
-					ice[r][c] = true;
-				}
-			}
-		}
-		total = queue.size(); //빙하인애들
-		
-		
-		int year = 0;
-		
-		boolean flag = false;
-		
-		while(true) {
-			
-			//녹이기
-			melt();
-			
-			if (total == 0) break; //개수 셀 것도 없이 실패
-			
-			year++;
-			
-//			for (int r = 0 ; r < N ;r++) {
-//				for (int c = 0 ; c <M ;c++) {
-//					System.out.print(map[r][c] + " ");
-//				}
-//				System.out.println();
-//			}
-			
-			if (count()) {
-				flag = true;
-				break;
-			}
-			
-		}
-		
-		
-		if (flag) System.out.println(year);
-		else System.out.println(0); //실패
+        grid = new int[N][M];
+        glacierList = new ArrayDeque<>();
+        for (int i = 0; i < N; i++){
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                grid[i][j] = Integer.parseInt(st.nextToken());
+                if (grid[i][j] > 0 ) { // 빙하
+                    glacierCnt++; // 빙하 개수 +1 
+                    glacierList.offer(new int[]{i, j});
+                }
+            }     
+        }
+        
+        // 애초에 빙산이 한 개 있거나 아에 없을경우 <예외처리>
+        if (glacierCnt <= 1) {
+        	System.out.println(0);
+        	return;
+        }
+        int time = 0 ; 
+        while(count()) { //count()가 true일 땐 계속 한 덩어리인것
+        	melt(); time++;
+        	if (glacierCnt== 0 ) break;
+        }
+        System.out.println(glacierCnt == 0 ? 0 :time);
+	}
+	
 
-		
-		
-	}
-	static int[] dr = {-1, 1, 0, 0};
-	static int[] dc = {0, 0, 1, -1};
-	public static void melt() {
-		Queue<Node> meltq = new ArrayDeque<>(); //다음에도 빙하인애들
-		int size = queue.size(); //이번 단계만 보기
-		for (int t = 0 ; t < size; t++) {
-			Node cur = queue.poll(); //나 : 빙하
-			
-			boolean tempflag = false;
-			for (int i = 0 ; i < 4; i++) { //인접정점들 살펴본다. 
-				int nextR = cur.r + dr[i];
-				int nextC = cur.c + dc[i];
-				
-				if (nextR<0 || nextC<0 || nextR>=N || nextC>=M) continue;
-				
-				if (ice[nextR][nextC]) continue; //인접정점이 빙하다.
-				else { //인접정점이 바다면 나(빙하)자신이 -1
-//					if (map[cur.r][cur.c] == 0) continue; //이미 0됐으면 다음으로 
-					map[cur.r][cur.c]--; //여기서 녹이면 이게 한 바퀴도는 동안 다른 데에 영향을 미치면 안됨.
-					if (map[cur.r][cur.c] == 0) { //바다가 됐다면
-						total--;//빙하개수 1개 빼기
-						tempflag = true;
-						break; //인접정점 더 볼 필요없음
-					}
-				}
-			}
-			if (tempflag) meltq.offer(new Node(cur.r, cur.c)); //나(cur)는 바다가 되었다. -> ice맵 바꿔줌
-			else queue.offer(new Node(cur.r, cur.c)); //다음번에도 빙하
-		}
-		//다 끝난 후 ice맵 바꿔주기 (한 단계 내에서는 ice맵을 유지했어야함. 이걸로 if문 분기하기때문)
-		
-		//meltq에 넣은 애들은 새로 바다가된 애들 -> ice맵 바꿔주기
-		size = meltq.size();
-		for (int t = 0; t < size; t++) {
-			Node cur = meltq.poll();
-			ice[cur.r][cur.c]= false; //녹임
-		}
-		
-	}
-	static boolean count() {
-		//빙하 덩어리 수 세기
-		int cnt = 0;
-		visit = new boolean[N][M];
-		for (int r = 0; r < N; r++) {
-			for (int c= 0 ; c < M; c++) {
-				if(!ice[r][c]) continue; //바다
-				if(visit[r][c]) continue;
-				// 빙하라면 한묶음씩
-				countbfs(r,c);
-				cnt++;
-				if (cnt >=2 ) { //덩어리 2개이상됨
-					return true;
-				}
-			}
-		}
-		//다 돌고 나왔는데 덩어리 2개미만이다. 
-		return false;
-	}
-	static void countbfs(int r, int c) {
-		Queue<Node> q = new ArrayDeque<>();
-		visit[r][c] = true;
-		q.offer(new Node(r, c));
-		
-		while(!q.isEmpty()) {
-			Node cur = q.poll();
-			
-			for (int i = 0; i < 4; i++) { //인접정점
-				int nextR = cur.r + dr[i];
-				int nextC = cur.c + dc[i];
-				if (nextR<0 || nextC<0 || nextR>=N || nextC>=M) continue;
-				if (visit[nextR][nextC]) continue;
-				if (ice[nextR][nextC]) q.offer(new Node(nextR, nextC)); //빙하만 큐에 넣음
-				visit[nextR][nextC] = true;
-			}
-		}
-	}
-	static class Node{
-		int r, c;
+    static int[] dr = {1, -1, 0, 0};
+    static int[] dc = {0, 0, 1, -1};
 
-		public Node(int r, int c) {
-			this.r = r;
-			this.c = c;
-		}	
-	}
+    static void melt() {
+        // 빙하리스트를 한바퀴만 돌아야하고, glacierList큐에 안넣는건 다시 집어넣을거라
+        // while (!isEmpty)말고, for문 으로 처음 큐 사이즈만큼만 돌기
+        Queue<int[]> nextQ = new ArrayDeque<>();
+        int size = glacierList.size();
+        for (int k = 0; k < size ; k++) { // 현재time에 있는 빙하를 쭉 돈다
+            int[] cur = glacierList.poll();
+            int curR = cur[0]; int curC = cur[1];
+
+           	int cnt = 0; // 빙하 주변의 땅의 개수 
+            for (int i = 0 ; i < 4 ;i++) { // 빙하 사방탐색
+                int nextR = curR + dr[i];
+                int nextC = curC + dc[i];
+
+                if (nextR < 0 || nextC < 0 || nextR >= N || nextC >= M) continue;
+
+                if (grid[nextR][nextC] == 0) cnt++; // 인접한 곳이 땅이다. 
+            }
+            // 사방에 땅이 없는 애
+            if (cnt==0) glacierList.offer(new int[]{curR, curC}); // 다시넣음 
+            else nextQ.offer(new int[]{curR, curC, cnt}); 
+
+        }
+        while(!nextQ.isEmpty()){ // 빙하 녹이기 - 아에 없어진게 아니라면 다시 glacierList에 넣어야한다.
+            int[] cur = nextQ.poll();
+            int curR = cur[0]; int curC = cur[1]; int cnt = cur[2];
+            
+            if (grid[curR][curC] <= cnt) {
+                grid[curR][curC]= 0; // 땅으로 변경
+                glacierCnt--;
+            } else {
+            	grid[curR][curC] -= cnt;
+            	glacierList.offer(new int[] {curR, curC});
+            }
+
+        }
+        return;
+    }
+    
+    static boolean count() {
+    	int cnt = 0;
+    	int[] start = glacierList.peek(); // 임의의 빙하 1개에서 시작
+    	int startR = start[0]; int startC = start[1];
+    	boolean[][] isVisited = new boolean[N][M];
+    	isVisited[startR][startC] = true;
+    	Queue<int[]> queue = new ArrayDeque<>();
+    	queue.offer(new int[] {startR, startC});
+    	
+    	while(!queue.isEmpty()) {
+    		int[] cur = queue.poll();
+    		int curR = cur[0]; int curC = cur[1];
+    		cnt++; // 빙하 개수 
+    		
+    		for (int i = 0 ; i < 4 ; i++) {
+                int nextR = curR + dr[i];
+                int nextC = curC + dc[i];
+
+                if (nextR < 0 || nextC < 0 || nextR >= N || nextC >= M) continue;
+                if (isVisited[nextR][nextC]) continue;
+                
+                if (grid[nextR][nextC] != 0) {
+                	queue.offer(new int[] { nextR, nextC});
+                }
+                isVisited[nextR][nextC] = true;
+    		}
+    	}
+    	
+    	return cnt == glacierCnt; // true : 한 덩어리 / false: 분리됨 
+    }
+    static void printMap() {
+    	for (int i = 0 ; i < N ;i++) {
+    		for (int j = 0 ; j <M ;j++) {
+    			System.out.print(grid[i][j] + " ");
+    		}
+    		System.out.println();
+    	}
+    }
 }
