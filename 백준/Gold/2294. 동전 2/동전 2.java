@@ -27,18 +27,21 @@ public class Main {
 		int[] dp = new int[K+1];
 		Arrays.fill(dp, MAX);
 		dp[0] = 0; // i-coin이 0이 될 때를 생각 
-//		for (int i = 0 ;i <= K ; i++) {
-//			for (int coin : coins) {
-//				if (coin > i ) continue;
-//				dp[i] = Math.min(dp[i], dp[i-coin] + 1 );
-//			}
-//		}
-		for (int coin : coins) {
-			for (int i = 0 ;i <= K ; i++) { // 이번에 보는 coin으로 금액 K까지 다 보고 채우기
+		// (1)
+		for (int i = 0 ;i <= K ; i++) {
+			for (int coin : coins) {
 				if (coin > i ) continue;
 				dp[i] = Math.min(dp[i], dp[i-coin] + 1 );
 			}
 		}
+		// (2)
+//		for (int coin : coins) {
+//			for (int i = 0 ;i <= K ; i++) { // 이번에 보는 coin으로 금액 K까지 다 보고 채우기
+//				if (coin > i ) continue;
+//				dp[i] = Math.min(dp[i], dp[i-coin] + 1 );
+//			}
+//		}
+		
 		System.out.println(dp[K]==MAX ? -1 : dp[K]);
 	
 	}
