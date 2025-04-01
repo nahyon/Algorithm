@@ -15,14 +15,16 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		
-		int[] trees = new int[N];
+		int[] trees = new int[N]; int right = 0;
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0 ; i < N ;i++) {
 			trees[i] = Integer.parseInt(st.nextToken());
+			right = Math.max(right, trees[i]);
 		}
 		
-		Arrays.sort(trees);
-		int left = 0; int right = trees[N-1];
+//		Arrays.sort(trees);
+//		int left = 0; int right = trees[N-1];
+		int left = 0;
 		
 		int maxHeight = 0;
 		while(left<=right) {
