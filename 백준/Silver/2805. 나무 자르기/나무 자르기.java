@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-// 백준 2805 _ 나무자르기
-// 이분탐색
+//백준 2805 _ 나무자르기
+//이분탐색
 public class Main {
 	
 	public static void main(String[] args) throws IOException{
@@ -16,48 +16,33 @@ public class Main {
 		int M = Integer.parseInt(st.nextToken());
 		
 		int[] trees = new int[N];
-		int treeMaxHeight = 0;
-		int treeMinHeight = 1000000000;
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0 ; i < N ;i++) {
 			trees[i] = Integer.parseInt(st.nextToken());
-//			treeMaxHeight = Math.max(treeMaxHeight, trees[i]);
-//			treeMinHeight = Math.min(treeMinHeight, trees[i]);
 		}
+		
 		Arrays.sort(trees);
+		int left = 0; int right = trees[N-1];
 		
-//		int midHeight = (treeMaxHeight+treeMinHeight)/2;
-		
-		int start = 0 ; int end = trees[N-1];
-		int midIdx ; //이때가 기준 키 =  trees[startIdx]
-		int height = 0;
-		
-//		int rest = 0;
-		int ans = 0;
-		while(start<=end) {
-			height = (start+end)/2;
-//			System.out.println("--" + height);
-			long rest = 0;
+		int maxHeight = 0;
+		while(left<=right) {
+			int targetHeight = (left+right) / 2;
 			
-			for (int i = 0 ; i < N ;i++) { // 
-				if (trees[i] > height) rest += (trees[i] - height);
+			// 가져가는 길이
+			long targetLength = 0;
+			for (int treeHeight : trees) {
+				if (treeHeight > targetHeight )
+					targetLength += (treeHeight - targetHeight);
 			}
-			///////
-//			System.out.println(rest + " " + M);
-			if (rest >= M) { //근데 커지느순간하면 그 때가 height의 최소라는걸 어케 보장함? 좀 더 height를 줄일수도있잖
-				ans = Math.max(ans, height);
-				start = height+1;
-			}
-			else if (rest < M) { // 더 앞으로
-				end = height-1;
-			}
-//			else if (rest > M) { // 더 뒤로 
-//				start = height+1;				
-//			}
 			
+			if ( targetLength >= M ) { // M이상 만족하면, 최대한 절단기높이 올려야함 -> left를 우측으로
+				maxHeight = Math.max(targetHeight, maxHeight);
+				left = targetHeight + 1;
+			} 
+			else right = targetHeight - 1;
 		}
-		System.out.println(ans);
-
+		
+		System.out.println(maxHeight);
 	}
 
 }
