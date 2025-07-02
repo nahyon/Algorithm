@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
@@ -11,7 +8,7 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 
 		StringBuilder sb = new StringBuilder();
-		Queue<Integer> pq = new PriorityQueue<>((o1, o2) -> -(o1-o2));
+		Queue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 		for (int i = 0 ; i < N ; i++) {
 			int x = Integer.parseInt(br.readLine());
 			if (x == 0) {
