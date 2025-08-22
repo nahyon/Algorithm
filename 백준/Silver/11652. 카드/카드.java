@@ -1,10 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 // 백준 11652 _ 카드
 public class Main {
@@ -19,12 +18,19 @@ public class Main {
 		}
 		
 		// value 기준으로 정렬하기
-		List<Entry<Long, Integer>> entrySetList = new ArrayList<>(map.entrySet());
-		entrySetList.sort((a, b) -> {
-			if (a.getValue().equals(b.getValue())) return Long.compare(a.getKey(), b.getKey());
-			return Integer.compare(b.getValue(), a.getValue());
-		});
-		System.out.println(entrySetList.get(0).getKey());
-		
+		// 가장 많이 가진거만 알면되니까 순회하면서 찾기
+		long ans = 0;
+		int cnt = 0;
+//		Set<Entry<Long, Integer>> entrySet = map.entrySet();
+		for (Entry<Long, Integer> entrySet : map.entrySet()) {
+			long key = entrySet.getKey();
+			int value = entrySet.getValue();
+			if (cnt == value && key < ans) ans = key;
+			else if (cnt < value ) {
+				ans = key;
+				cnt = value;
+			}
+		}
+		System.out.println(ans);	
 	}
 }
