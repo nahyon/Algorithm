@@ -13,3 +13,13 @@ JOIN (
     HAVING COUNT(*) >= 2
 ) heavy_users ON p.host_id = heavy_users.host_id
 ORDER BY p.id;
+
+SELECT id, name, host_id
+FROM places 
+WHERE host_id IN (
+    SELECT host_id
+    FROM places
+    GROUP BY host_id
+    HAVING COUNT(*) >= 2
+)
+ORDER BY id;
